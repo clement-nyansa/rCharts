@@ -8,12 +8,15 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
   initialize = function(){
     callSuper(); 
     params <<- c(params, list(controls = list(),
-      chart = list(), xAxis = list(), x2Axis = list(), yAxis = list(),
+      chart = list(), pie=list(), xAxis = list(), x2Axis = list(), yAxis = list(),
       filters = list()
     ))
   },
   chart = function(..., replace = F){
     params$chart <<- setSpec(params$chart, ..., replace = replace)
+  },
+  pie = function(..., replace=F) {
+    params$pie <<- setSpec(params$pie, ..., replace = replace)
   },
   addFilters = function(...){
     .self$setTemplate(
@@ -46,6 +49,7 @@ Nvd3 <- setRefClass('Nvd3', contains = 'rCharts', methods = list(
   getPayload = function(chartId){
     data = toJSONArray2(params$data, digits = getOption('rcharts.digits', 13))
     chart = toChain(params$chart, 'chart')
+    pie = toChain(params$pie, 'chart.pie')
     xAxis = toChain(params$xAxis, 'chart.xAxis')
     x2Axis = toChain(params$x2Axis, 'chart.x2Axis')    
     yAxis = toChain(params$yAxis, 'chart.yAxis')
